@@ -76,6 +76,8 @@ private:
 	uint64_t _lastBytesSent;
 	uint64_t _lastBytesSentTime;
 
+	bool isExiting;
+
 	void broadcastUpdate(const char* updateType,
 		obs_data_t* additionalFields);
 

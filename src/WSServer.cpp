@@ -217,11 +217,12 @@ void WSServer::onClose(connection_hdl hdl)
 
 	auto conn = _server.get_con_from_hdl(hdl);
 	auto localCloseCode = conn->get_local_close_code();
+	auto localCloseReason = conn->get_local_close_reason();
 
-	if (localCloseCode != websocketpp::close::status::going_away) {
+	blog(LOG_INFO, "Websocket connection with client '%s' closed (disconnected). Code is %d, reason is: '%s'", localCloseCode, localCloseReason.c_str());
+	if (localCloseCode != websocketpp::close::status::going_away && localCloseCode != websocketpp::close::status::abnormal_close) {
 		QString clientIp = getRemoteEndpoint(hdl);
 		notifyDisconnection(clientIp);
-		blog(LOG_INFO, "client %s disconnected", clientIp.toUtf8().constData());
 	}
 }
 
